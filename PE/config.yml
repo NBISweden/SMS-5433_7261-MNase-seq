@@ -6,7 +6,7 @@ datadir: "data/"
 resdir: "results/"
 logdir: "logdir/"
 # Snakefile location
-snkpth: "Snakefile_procdata_PE_v.0.1"
+snkpth: "Snakefile_procdata_PE_v.0.2"
 
 
 # Reference files
