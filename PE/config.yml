@@ -1,0 +1,22 @@
+# Data path
+metadata: "/Users/agata.smialowska/NBISproj/5433_SAstrom/analysis/metadata/accessions_PE.txt"
+
+# Output paths
+datadir: "data/"
+resdir: "results/"
+logdir: "logdir/"
+# Snakefile location
+snkpth: "Snakefile_procdata_PE_v.0.1"
+
+
+# Reference files
+GENOME_FA: "/Users/agata.smialowska/NBISproj/5433_SAstrom/analysis/genome/fasta/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa"
+
+
+# Adapter for trimming
+adapterFWD: "GATCGGAAGAGCTCGTATGCCGTCTTCTGCTT"
+adapterREV: "GATCGGAAGAGCTCGTATGCCGTCTTCTGCTT"
+
+
+# Parameters for calculation of normalised coverage tracks
+efGenomeSize: "12400000"

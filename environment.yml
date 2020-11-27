@@ -1,0 +1,13 @@
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - snakemake=5.27.4
+  - sra-tools=2.10.1
+  - bowtie=1.2.2
+  - fastqc=0.11.9
+  - samtools=1.10
+  - cutadapt=3.0
+  - deeptools=3.5.0
+  - multiqc=1.9

@@ -1,0 +1,246 @@
+import os
+import glob
+import pandas as pd
+import itertools
+
+#from ordered_set import OrderedSet
+
+
+# Config file
+configfile: "config.yml"
+
+# Paths
+datadir = config["datadir"]
+
+resdir= config["resdir"]
+
+fastqcdir1 = resdir + "fastqc_raw/"
+fastqcdir2 = resdir + "fastqc_proc/"
+trimmeddir= resdir + "cutadapt/"
+multiqcdir = resdir + "multiqc/"
+#trimmodir= resdir + "trimmomatic/"
+
+bwt_idx_dir = resdir + "genome_idx_bowtie/"
+mappeddir= resdir + "mapped_bowtie/"
+bwt_multi= mappeddir + "multi_randompos/"
+bwt_uniq= mappeddir + "unique_bestmap/"
+
+deeptoolsdir= resdir + "tracks_deepTools/"
+bw_uniq=deeptoolsdir + "bw_cov1x_unique_bestmap/"
+bw_multi=deeptoolsdir + "bw_cov1x_multi_randompos/"
+
+logdir = config["logdir"]
+
+
+# Get samples names and dirs
+accessions=config["metadata"]
+
+samples = pd.read_table(accessions).set_index("accession_sra",drop=False)
+
+accessions_to_proc=samples["accession_sra"].tolist(),
+datasets=samples["dataset"].tolist(),
+
+merged_acc = list(itertools.chain(*accessions_to_proc))
+merged_dts = list(itertools.chain(*datasets))
+
+
+
+
+#####################
+## TMPDIR
+
+# $TMPDIR is used in the shell code chunks
+#####################
+
+
+### test if dirs are properly paired with accessions
+#foo3=expand(datadir + "{dataset}/{acc}.fastq",zip,dataset=merged_dts,acc=merged_acc)
+#print(foo3)
+
+rule all:
+    input:
+        resdir + "rulegraph.png",
+        resdir + "dag.png",
+        expand(datadir + "{dataset}/{acc}_1.fastq",zip,dataset=merged_dts,acc=merged_acc),
+        expand(fastqcdir1+ "{dataset}/{acc}_1_fastqc.html",zip,dataset=merged_dts,acc=merged_acc),
+        expand(fastqcdir2+ "{dataset}/{acc}.trimmed_1_fastqc.html",zip,dataset=merged_dts,acc=merged_acc),
+        expand(bw_uniq + "{dataset}/{acc}.bwt.unique_bestmap.cov1x.bw",zip,dataset=merged_dts,acc=merged_acc),
+        expand(bw_multi + "{dataset}/{acc}.bwt.multi_randompos.cov1x.bw",zip,dataset=merged_dts,acc=merged_acc),
+        multiqcdir + "multiqc_report.html"
+
+rule download_fastq:
+    output:
+        f1=datadir + "{sample}/{acc}_1.fastq",
+        f2=datadir + "{sample}/{acc}_2.fastq"
+    shell:
+        """
+        fasterq-dump {wildcards.acc} -O $(dirname {output.f1})
+        """
+
+rule bowtie_idx:
+    input:
+        config["GENOME_FA"]
+    output:
+        idx= bwt_idx_dir + "scer3.1.ebwt",
+        idxrev= bwt_idx_dir + "scer3.rev.1.ebwt"
+    log:
+        logdir + "bwt_idx.log"
+    shell:
+        """
+        pth="{output.idx}"
+        bowtie-build --threads 2 -f {input} ${{pth%.1.ebwt}} &> {log}
+        """
+
+
+rule fastqc_raw:
+    input:
+        r1=datadir + "{sample}/{acc}_1.fastq",
+        r2=datadir + "{sample}/{acc}_2.fastq"
+    output:
+        html1= fastqcdir1 + "{sample}/{acc}_1_fastqc.html",
+        ziparch1= fastqcdir1 + "{sample}/{acc}_1_fastqc.zip",
+        html2= fastqcdir1 + "{sample}/{acc}_2_fastqc.html",
+        ziparch2= fastqcdir1 + "{sample}/{acc}_2_fastqc.zip"
+    shell:
+        """
+        # Run FastQC and save the output to the current directory
+        fastqc {input.r1} -q -o $(dirname {output.html1})
+        fastqc {input.r2} -q -o $(dirname {output.html2})
+        """
+
+rule cutadapt:
+    input:
+        r1=datadir + "{sample}/{acc}_1.fastq",
+        r2=datadir + "{sample}/{acc}_2.fastq"
+    output:
+        fastq1=trimmeddir + "{sample}/{acc}.trimmed_1.fastq",
+        log= logdir + "{acc}_{sample}.cutadapt.log",
+        fastq2=trimmeddir + "{sample}/{acc}.trimmed_2.fastq",
+    shell:
+        """
+        cutadapt -a {config[adapterFWD]} -A {config[adapterREV]} -m 30 -j 0 -o {output.fastq1} -p {output.fastq2} {input.r1} {input.r2} &> {output.log}
+        """
+
+rule fastqc_proc:
+    input:
+        t1=trimmeddir + "{sample}/{acc}.trimmed_1.fastq",
+        t2=trimmeddir + "{sample}/{acc}.trimmed_2.fastq"
+    output:
+        html1= fastqcdir2 + "{sample}/{acc}.trimmed_1_fastqc.html",
+        ziparch1= fastqcdir2 + "{sample}/{acc}.trimmed_1_fastqc.zip",
+        html2= fastqcdir2 + "{sample}/{acc}.trimmed_2_fastqc.html",
+        ziparch2= fastqcdir2 + "{sample}/{acc}.trimmed_2_fastqc.zip"
+    shell:
+        """
+        # Run FastQC and save the output to the current directory
+        fastqc {input.t1} -q -o $(dirname {output.html1})
+        fastqc {input.t2} -q -o $(dirname {output.html2})
+        """
+
+
+
+
+
+rule map_bowtie_unique_bestmap:
+    input:
+        fq1=trimmeddir + "{sample}/{acc}.trimmed_1.fastq",
+        fq2=trimmeddir + "{sample}/{acc}.trimmed_2.fastq",
+        idx= bwt_idx_dir + "scer3.1.ebwt",
+        idxrev= bwt_idx_dir + "scer3.rev.1.ebwt"
+    output:
+        log= logdir + "{acc}_{sample}.bowtie.unique_bestmap.log",
+        bam= bwt_uniq + "{sample}/{acc}.bwt.unique_bestmap.sorted.bam"
+    shell:
+        """
+        pth="{input.idx}"
+        foo="{input.idxrev}"
+        TMPDIR="${{TMPDIR:-/tmp}}"
+       
+        bowtie -n 3 -m 1 --best --strata \
+        -a -q -S -p 4 --fr -t --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.acc}.sam 2> {output.log} 
+
+        samtools sort -T $TMPDIR/{wildcards.acc}.tmp -o {output.bam} $TMPDIR/{wildcards.acc}.sam
+        
+        samtools index {output.bam}
+        """
+
+
+rule map_bowtie_multi_randompos:
+    input:
+        fq1=trimmeddir + "{sample}/{acc}.trimmed_1.fastq",
+        fq2=trimmeddir + "{sample}/{acc}.trimmed_2.fastq",
+        idx= bwt_idx_dir + "scer3.1.ebwt",
+        idxrev= bwt_idx_dir + "scer3.rev.1.ebwt"
+    output:
+        log= logdir + "{acc}_{sample}.bowtie.multi_randompos.log",
+        bam= bwt_multi + "{sample}/{acc}.bwt.multi_randompos.sorted.bam"
+    shell:
+        """
+        pth="{input.idx}"
+        foo="{input.idxrev}"
+        TMPDIR="${{TMPDIR:-/tmp}}"
+       
+        bowtie -n 3 -M 1 --best --strata \
+        -a -q -S -p 4 --fr -t --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.acc}.sam 2> {output.log} 
+
+        samtools sort -T $TMPDIR/{wildcards.acc}.tmp -o {output.bam} $TMPDIR/{wildcards.acc}.sam
+        
+        samtools index {output.bam}
+        """
+
+
+rule deeptools_bw_multi:
+    input:
+        bam= bwt_multi + "{sample}/{acc}.bwt.multi_randompos.sorted.bam"
+    output:
+        bw= bw_multi + "{sample}/{acc}.bwt.multi_randompos.cov1x.bw"
+    shell:
+        """
+        bamCoverage -p 1 --bam {input.bam} --outFileName {output.bw} --normalizeUsing RPGC --exactScaling --effectiveGenomeSize {config[efGenomeSize]} --extendReads --binSize 1 --outFileFormat bigwig --ignoreForNormalization Mito &>/dev/null
+        """
+
+
+rule deeptools_bw_unique:
+    input:
+        bam= bwt_uniq + "{sample}/{acc}.bwt.unique_bestmap.sorted.bam"
+    output:
+        bw= bw_uniq + "{sample}/{acc}.bwt.unique_bestmap.cov1x.bw"
+    shell:
+        """
+        bamCoverage -p 1 --bam {input.bam} --outFileName {output.bw} --normalizeUsing RPGC --exactScaling --effectiveGenomeSize {config[efGenomeSize]} --extendReads --binSize 1 --outFileFormat bigwig --ignoreForNormalization Mito &>/dev/null
+        """
+
+
+################################
+## final rules
+################################
+
+rule generate_rulegraph:
+    """
+    Generate a rulegraph for the workflow.
+    """
+    output:
+        resdir + "rulegraph.png",
+        resdir + "dag.png"
+    shell:
+        """
+        snakemake --snakefile {config[snkpth]} --config max_reads=0 --rulegraph | dot -Tpng >{output[0]}
+        snakemake --snakefile {config[snkpth]} --config max_reads=0 --dag | dot -Tpng >{output[1]}
+        """
+
+rule MultiQC:
+    input:
+        expand(fastqcdir1+ "{dataset}/{acc}_1_fastqc.html",zip,dataset=merged_dts,acc=merged_acc),
+        expand(fastqcdir2+ "{dataset}/{acc}.trimmed_1_fastqc.html",zip,dataset=merged_dts,acc=merged_acc),
+        expand(fastqcdir1+ "{dataset}/{acc}_2_fastqc.html",zip,dataset=merged_dts,acc=merged_acc),
+        expand(fastqcdir2+ "{dataset}/{acc}.trimmed_2_fastqc.html",zip,dataset=merged_dts,acc=merged_acc),
+        expand(logdir + "{acc}_{dataset}.cutadapt.log", zip,dataset=merged_dts,acc=merged_acc),
+        expand(logdir + "{acc}_{dataset}.bowtie.unique_bestmap.log", zip,dataset=merged_dts,acc=merged_acc),
+        expand(logdir + "{acc}_{dataset}.bowtie.multi_randompos.log", zip,dataset=merged_dts,acc=merged_acc)
+    output:
+        multiqcdir + "multiqc_report.html"
+    shell:
+        """
+        multiqc -f --outdir $(dirname {output}) {resdir} {logdir}        
+        """
+
