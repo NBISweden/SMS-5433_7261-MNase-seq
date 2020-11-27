@@ -14,8 +14,8 @@ GENOME_FA: "/Users/agata.smialowska/NBISproj/5433_SAstrom/analysis/genome/fasta/
 
 
 # Adapter for trimming
-adapterFWD: "GATCGGAAGAGCTCGTATGCCGTCTTCTGCTT"
-adapterREV: "GATCGGAAGAGCTCGTATGCCGTCTTCTGCTT"
+adapterFWD: "GATCGGAAGAGCGGTTCAGCAGGAATGCCGAG"
+adapterREV: "ACACTCTTTCCCTACACGACGCTCTTCCGATCT"
 
 
 # Parameters for calculation of normalised coverage tracks
