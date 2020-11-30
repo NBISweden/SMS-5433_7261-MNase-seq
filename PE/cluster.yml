@@ -1,0 +1,6 @@
+__default__:
+  account: "snic2020-15-275"
+  partition: "core"
+  N: 1
+  time: "01:00:00"
+  jobname: "readproc_PE"
