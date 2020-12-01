@@ -4,3 +4,22 @@ __default__:
   N: 1
   time: "01:00:00"
   jobname: "readproc_SE"
+
+
+bowtie_idx:
+  partition: "core"
+  N: 2
+  time: "03:00:00"
+  jobname: "idx_PE"
+
+map_bowtie_unique_bestmap:
+  partition: "core"
+  N: 4
+  time: "03:00:00"
+  jobname: "map_PE"
+
+map_bowtie_multi_randompos:
+  partition: "core"
+  N: 4
+  time: "03:00:00"
+  jobname: "map_PE"
