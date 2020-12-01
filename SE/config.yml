@@ -1,5 +1,5 @@
 # Data path
-metadata: "/Users/agata.smialowska/NBISproj/5433_SAstrom/analysis/metadata/accessions_SE.txt"
+metadata: "accessions_SE.txt"
 
 # Output paths
 datadir: "data/"
@@ -10,7 +10,7 @@ snkpth: "Snakefile_procdata_SE_v.0.4"
 
 
 # Reference files
-GENOME_FA: "/Users/agata.smialowska/NBISproj/5433_SAstrom/analysis/genome/fasta/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa"
+GENOME_FA: "/proj/snic2020-16-205/private/nbis5433/fa/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa"
 
 
 # Adapter for trimming
