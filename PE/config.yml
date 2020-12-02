@@ -14,8 +14,8 @@ GENOME_FA: "/proj/snic2020-16-205/private/nbis5433/fa/Saccharomyces_cerevisiae.R
 
 
 # Adapter for trimming
-adapterFWD: "GATCGGAAGAGCGGTTCAGCAGGAATGCCGAG"
-adapterREV: "ACACTCTTTCCCTACACGACGCTCTTCCGATCT"
+adapterFWD: "AGATCGGAAGAGCACACGTCTGAACTCCAGTCA"
+adapterREV: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
 
 
 # Parameters for calculation of normalised coverage tracks
