@@ -89,8 +89,10 @@ conda create -n dataproc
 
 conda activate dataproc
 
+conda install -c conda-forge python=3.7.0
 conda install -c bioconda snakemake=5.21.0
-conda install sra-tools=2.10.1 bowtie=1.2.2 fastqc=0.11.9
+conda install -c bioconda bowtie=1.2.3
+conda install sra-tools=2.10.1 fastqc=0.11.9
 conda install samtools=1.10 cutadapt=3.0 deeptools=3.5.0 multiqc=1.9
 ```
 
@@ -252,9 +254,15 @@ This is a sequence of commands I used when running the pipeline. I have `Minicon
 For environment creation (I created the environment in the project directory, so you can use it too):
 
 ```
-conda create -p /proj/snic2020-16-205/private/nbis5433/conda/dataproc
+conda create --no-default-packages -p /proj/snic2020-16-205/private/nbis5433/conda/DataProc
 
-<< here package installation as above >>
+conda activate /proj/snic2020-16-205/private/nbis5433/conda/DataProc
+
+conda install -c conda-forge python=3.7.0
+conda install -c bioconda snakemake=5.21.0
+conda install -c bioconda bowtie=1.2.3
+conda install sra-tools=2.10.1 fastqc=0.11.9
+conda install samtools=1.10 cutadapt=3.0 deeptools=3.5.0 multiqc=1.9
 ```
 
 Pipeline run:
