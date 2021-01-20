@@ -85,27 +85,32 @@ conda env create -f environment.yml -n dataproc
 Note: It is easier to install packages using the file `environment.yml` which lists the packages and versions. Sometimes however, this fails (i.e. seems to be stuck for a long time at the step "Solving environment"), so one solution is to create an empty environment, activate it and install packages. These will be saved in the environment, so you only do it once (i.e. **not** for each session).
 
 ```
-conda create -n dataproc
+# first we create an environment with mamba, a faster package manager than conda
+conda create -n mamba mamba
 
-conda activate dataproc
+# we activate the environment
+conda activate mamba
 
-conda install -c conda-forge python=3.7.0
-conda install -c bioconda snakemake=5.21.0
-conda install -c bioconda bowtie=1.2.3
-conda install sra-tools=2.10.1 fastqc=0.11.9
-conda install samtools=1.10 cutadapt=3.0 deeptools=3.5.0 multiqc=1.9
+# now we create the environment DataProc2 which will be our working environment
+mamba create --no-default-packages -p /proj/snic2020-16-205/private/nbis5433/conda/DataProc2 -c bioconda snakemake=5.21.0 bowtie=1.2.3 cutadapt=3.0 sra-tools=2.10.1 fastqc=0.11.9 samtools=1.10 multiqc=1.9 deeptools=3.5.0
+
+# we can activate the working environment
+conda activate /proj/snic2020-16-205/private/nbis5433/conda/DataProc2
+
+
 ```
 
 ### Activating conda environment
 
 ```
-conda activate dataproc
+conda activate /proj/snic2020-16-205/private/nbis5433/conda/DataProc2
 ```
 
-Sometimes you need to perform this step if the shell gives you a messagae that you need to configure it for using `conda activate`:
+Sometimes you need to perform this step prior to environment activation if the shell gives you a messagae that you need to configure it for using `conda activate`:
 
 ```
 source ~/miniconda2/etc/profile.d/conda.sh
+conda activate /proj/snic2020-16-205/private/nbis5433/conda/DataProc2
 ```
 
 
@@ -186,7 +191,7 @@ module load conda/latest
 
 source ~/miniconda2/etc/profile.d/conda.sh
 
-conda activate /proj/snic2020-16-205/private/nbis5433/conda/dataproc
+conda activate /proj/snic2020-16-205/private/nbis5433/conda/DataProc2
 
 bash submit-snakemake.sh
 ```
@@ -208,7 +213,7 @@ You activate the conda environment:
 ```
 source ~/miniconda2/etc/profile.d/conda.sh
 
-conda activate dataproc
+conda activate DataProc2
 
 snakemake --snakefile Snakefile_procdata_SE_v.0.4 --cores 1
 ```
@@ -217,7 +222,7 @@ snakemake --snakefile Snakefile_procdata_SE_v.0.4 --cores 1
 ### Monitoring the pipeline run
 
 
-To monitor jobs in the queue:
+To monitor jobs in the queue (on Rackham):
 
 ```
 jobinfo -u <userid>
@@ -251,18 +256,16 @@ snakemake --snakefile Snakefile_procdata_SE_v.0.4 -n --unlock --cores 1
 
 This is a sequence of commands I used when running the pipeline. I have `Miniconda 2` installed in my home directory.
 
-For environment creation (I created the environment in the project directory, so you can use it too):
+For environment creation (I created the environment in the project directory, so you can use it too, no need to recreate it, but if you'd like to give it a go, you can rename it):
 
 ```
-conda create --no-default-packages -p /proj/snic2020-16-205/private/nbis5433/conda/DataProc
+conda create -n mamba mamba
 
-conda activate /proj/snic2020-16-205/private/nbis5433/conda/DataProc
+conda activate mamba
 
-conda install -c conda-forge python=3.7.0
-conda install -c bioconda snakemake=5.21.0
-conda install -c bioconda bowtie=1.2.3
-conda install sra-tools=2.10.1 fastqc=0.11.9
-conda install samtools=1.10 cutadapt=3.0 deeptools=3.5.0 multiqc=1.9
+mamba create --no-default-packages -p /proj/snic2020-16-205/private/nbis5433/conda/DataProc2 -c bioconda snakemake=5.21.0 bowtie=1.2.3 cutadapt=3.0 sra-tools=2.10.1 fastqc=0.11.9 samtools=1.10 multiqc=1.9 deeptools=3.5.0
+
+conda activate /proj/snic2020-16-205/private/nbis5433/conda/DataProc2
 ```
 
 Pipeline run:
@@ -278,7 +281,7 @@ module load conda/latest
 
 source ~/miniconda2/etc/profile.d/conda.sh
 
-conda activate /proj/snic2020-16-205/private/nbis5433/conda/dataproc
+conda activate /proj/snic2020-16-205/private/nbis5433/conda/DataProc2
 
 bash submit-snakemake.sh
 
