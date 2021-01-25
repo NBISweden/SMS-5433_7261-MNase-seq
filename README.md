@@ -118,6 +118,9 @@ conda activate /proj/snic2020-16-205/private/nbis5433/conda/DataProc2
 
 ### Pipeline installation
 
+Firstly, you need `git` on your computer. A tutorial on how to install it can be found [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) or [here](https://github.com/git-guides/install-git).
+
+
 To install the pipeline:
 
 
