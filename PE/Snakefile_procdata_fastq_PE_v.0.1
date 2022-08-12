@@ -41,19 +41,6 @@ samples_base = list(set(fastq_base))
 
 
 
-accessions=config["metadata"]
-
-samples = pd.read_table(accessions).set_index("accession_sra",drop=False)
-
-accessions_to_proc=samples["accession_sra"].tolist(),
-datasets=samples["dataset"].tolist(),
-
-merged_acc = list(itertools.chain(*accessions_to_proc))
-merged_dts = list(itertools.chain(*datasets))
-
-
-
-
 #####################
 ## TMPDIR
 
