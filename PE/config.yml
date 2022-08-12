@@ -1,22 +1,16 @@
 # Data path
-metadata: "accessions_PE.txt"
 
 # Output paths
 datadir: "data/"
 resdir: "results/"
 logdir: "logdir/"
 # Snakefile location
-snkpth: "Snakefile_procdata_PE_v.0.2"
+snkpth: "Snakefile_procdata_fastq_PE_v.0.1"
 
+#W303 reference from geneBank
 
 # Reference files
-GENOME_FA: "/proj/snic2020-16-205/private/nbis5433/fa/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa"
-
-
-# Adapter for trimming
-adapterFWD: "AGATCGGAAGAGCACACGTCTGAACTCCAGTCA"
-adapterREV: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
-
+GENOME_FA: "/proj/epi2022/nobackup/private/agata/mnaseseq/reference/w303/GCA_002163515.1_ASM216351v1_genomic.fna"
 
 # Parameters for calculation of normalised coverage tracks
 efGenomeSize: "12400000"
