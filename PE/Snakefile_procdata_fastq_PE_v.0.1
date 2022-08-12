@@ -150,7 +150,7 @@ rule deeptools_bw_multi:
         bw= bw_multi + "{id}.bwt.multi_randompos.cov1x.bw"
     shell:
         """
-        bamCoverage -p 1 --bam {input.bam} --outFileName {output.bw} --normalizeUsing RPGC --exactScaling --effectiveGenomeSize {config[efGenomeSize]} --extendReads --binSize 1 --outFileFormat bigwig --ignoreForNormalization Mito &>/dev/null
+        bamCoverage -p 1 --bam {input.bam} --outFileName {output.bw} --normalizeUsing RPGC --exactScaling --effectiveGenomeSize {config[efGenomeSize]} --extendReads --binSize 1 --outFileFormat bigwig --ignoreForNormalization CM007980.1 CM007981.1 &>/dev/null
         """
 
 
@@ -161,7 +161,7 @@ rule deeptools_bw_unique:
         bw= bw_uniq + "{id}.bwt.unique_bestmap.cov1x.bw"
     shell:
         """
-        bamCoverage -p 1 --bam {input.bam} --outFileName {output.bw} --normalizeUsing RPGC --exactScaling --effectiveGenomeSize {config[efGenomeSize]} --extendReads --binSize 1 --outFileFormat bigwig --ignoreForNormalization Mito &>/dev/null
+        bamCoverage -p 1 --bam {input.bam} --outFileName {output.bw} --normalizeUsing RPGC --exactScaling --effectiveGenomeSize {config[efGenomeSize]} --extendReads --binSize 1 --outFileFormat bigwig --ignoreForNormalization CM007980.1 CM007981.1 &>/dev/null
         """
 
 
