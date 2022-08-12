@@ -1,5 +1,5 @@
 __default__:
-  account: "snic2020-15-275"
+  account: "snic2022-22-634"
   partition: "core"
   N: 1
   time: "01:00:00"
