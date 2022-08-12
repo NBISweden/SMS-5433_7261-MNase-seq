@@ -111,9 +111,9 @@ rule map_bowtie_unique_bestmap:
         TMPDIR="${{TMPDIR:-/tmp}}"
        
         bowtie -n 3 -m 1 --best --strata \
-        -a -q -S -p 4 --fr -t -X 400 --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.acc}.sam 2> {output.log} 
+        -a -q -S -p 4 --fr -t -X 400 --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.id}.sam 2> {output.log} 
 
-        samtools sort -T $TMPDIR/{wildcards.acc}.tmp -o {output.bam} $TMPDIR/{wildcards.acc}.sam
+        samtools sort -T $TMPDIR/{wildcards.id}.tmp -o {output.bam} $TMPDIR/{wildcards.id}.sam
         
         samtools index {output.bam}
         """
@@ -135,9 +135,9 @@ rule map_bowtie_multi_randompos:
         TMPDIR="${{TMPDIR:-/tmp}}"
        
         bowtie -n 3 -M 1 --best --strata \
-        -a -q -S -p 4 --fr -t -X 400 --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.acc}.sam 2> {output.log} 
+        -a -q -S -p 4 --fr -t -X 400 --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.id}.sam 2> {output.log} 
 
-        samtools sort -T $TMPDIR/{wildcards.acc}.tmp -o {output.bam} $TMPDIR/{wildcards.acc}.sam
+        samtools sort -T $TMPDIR/{wildcards.id}.tmp -o {output.bam} $TMPDIR/{wildcards.id}.sam
         
         samtools index {output.bam}
         """
