@@ -121,7 +121,6 @@ rule map_bowtie_unique_bestmap:
 
 rule map_bowtie_multi_randompos:
     input:
-    input:
         fq1=datadir + "{id}_R1.fastq.gz",
         fq2=datadir + "{id}_R2.fastq.gz",
         idx= bwt_idx_dir + "Sce_w303.1.ebwt",
