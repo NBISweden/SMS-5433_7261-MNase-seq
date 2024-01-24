@@ -14,3 +14,4 @@ GENOME_FA: "/proj/epi2022/nobackup/private/agata/mnaseseq/reference/w303/GCA_002
 
 # Parameters for calculation of normalised coverage tracks
 efGenomeSize: "12400000"
+normIgnore: "CM007980.1 CM007981.1"
