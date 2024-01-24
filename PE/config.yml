@@ -10,7 +10,7 @@ snkpth: "Snakefile_procdata_fastq_PE_v.0.1"
 #W303 reference from geneBank
 
 # Reference files
-GENOME_FA: "/proj/epi2022/nobackup/private/agata/mnaseseq/reference/w303/GCA_002163515.1_ASM216351v1_genomic.fna"
+GENOME_FA: "/cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/reference/w303_ncbi/ncbi_dataset/data/GCA_002163515.1/GCA_002163515.1_ASM216351v1_genomic.fna"
 
 # Parameters for calculation of normalised coverage tracks
 efGenomeSize: "12400000"
