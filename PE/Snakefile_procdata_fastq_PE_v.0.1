@@ -32,8 +32,8 @@ logdir = config["logdir"]
 # Get samples names
 # Get samples & file bases in the fastq data directory
 # Get samples & file bases in the fastq data directory
-fastq_base = glob.glob(datadir + "*_L001_R1_001.fastq.gz")                  
-fastq_base = [s.replace('_L001_R1_001', '') for s in fastq_base]
+fastq_base = glob.glob(datadir + "*_R1.fastq.gz")                  
+fastq_base = [s.replace('_R1.fastq.gz', '') for s in fastq_base]
 fastq_pths = fastq_base #list of input fastq files with Paths       
 fastq_base = [s.replace(datadir, '') for s in fastq_base]
 
