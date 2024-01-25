@@ -1,24 +1,24 @@
 __default__:
-  account: "snic2020-15-275"
-  partition: "core"
+  account: "naiss2023-22-1143"
+  partition: "shared"
   N: 1
   time: "01:00:00"
   jobname: "readproc_PE"
 
 bowtie_idx:
-  partition: "core"
+  partition: "shared"
   N: 2
   time: "03:00:00"
   jobname: "idx_PE"
 
 map_bowtie_unique_bestmap:
-  partition: "core"
-  N: 4
+  partition: "shared"
+  N: 8
   time: "03:00:00"
-  jobname: "map_PE"
+  jobname: "map_PE_u"
 
 map_bowtie_multi_randompos:
-  partition: "core"
-  N: 4
+  partition: "shared"
+  N: 8
   time: "03:00:00"
-  jobname: "map_PE"
+  jobname: "map_PE_m"
