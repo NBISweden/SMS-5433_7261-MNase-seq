@@ -7,7 +7,14 @@ Pipelines for processing reads from ChIP-seq or MNase-seq experiments with focus
 
 ## Workflow description
 
-The entire workflow runs within a [conda](https://docs.conda.io/en/latest/) environment. The only prerequisite is havng a working internet connection for downloading files from the SRA repository. Project specific variables (paths, adapter sequences) are provided via a configuration file `config.yml`.
+Two workflows are included, which only differ in their starting point:
+
+* a directory with `fastq` files
+
+* a list of SRA accessions.
+
+
+The entire workflow runs within a [conda](https://docs.conda.io/en/latest/) environment. The only prerequisite is havng a working internet connection for downloading files from the SRA repository, if required. Project specific variables (paths, adapter sequences) are provided via a configuration file `config.yml`.
 
 The pipelines are developed in [Snakemake](https://snakemake.readthedocs.io/en/stable/) workflow management tool.
 
@@ -71,6 +78,8 @@ module load bioinfo-tools
 module load conda/latest
 ```
 
+Note2: On Dardel it is best to install conda in own home directory, as described in conda documentation. The enviroment data can (and should) be kept in project directories.
+
 
 
 ### Conda environment
@@ -99,6 +108,9 @@ conda activate /proj/snic2020-16-205/private/nbis5433/conda/DataProc2
 
 
 ```
+
+Please substitute the directory path with currently used system and allocation specifics.
+
 
 ### Activating conda environment
 
@@ -143,8 +155,19 @@ The pipelines for SE and PE reads are in their respective directories:
 
 ```
 ls PE/
-Snakefile_procdata_PE_v.0.2	accessions_PE.txt		cluster.yml			config.yml			submit-snakemake.sh
+Snakefile_procdata_PE_v.0.2   accessions_PE.txt     submit-snakemake-sra.sh
+Snakefile_procdata_fastq_PE   cluster.yml       submit-snakemake.sh
+Snakefile_procdata_fastq_PE_v.0.1 config.yml
 ```
+
+**Fastq pipeline**
+
+* `Snakefile_procdata_fastq_PE` the snakefile which is the pipeline code;
+
+* `submit-snakemake.sh` is used to run the pipeline on a cluster, where each step is run as a separate job managed by the cluster's queueing manager `SLURM`.
+
+
+**SRA pipeline**
 
 * `Snakefile_procdata_PE_v.0.2` the snakefile which is the pipeline code;
 
@@ -158,18 +181,23 @@ SRR771483	Chromatin_remodellers_MNaseseq_PRJNA192582	PE
 SRR771486	Chromatin_remodellers_MNaseseq_PRJNA192582	PE
 ```
 
-You can have several datasets in one file, and the results will be saved in the directories named after the respective dataset.
+You can list several datasets in one accession file, and the results will be saved in the directories named after the respective dataset.
+
+* `submit-snakemake-sra.sh` is used to run the pipeline on a cluster, where each step is run as a separate job managed by the cluster's queueing manager `SLURM`.
+
+OBS! File `Snakefile_procdata_fastq_PE_v.0.1` is the older version, now deprecated. It will be deleted in the future.
+
+
+**Config files**
+
 
 * `config.yml` provides project specific information such as paths to results, logs, genome.fa etc.
 
-Please note that by default `Snakemake` saves results files relative to its working directory. You  can change this behaviour by providing the full path to output directories in `config.yml`
-
+Please note that by default `Snakemake` saves results files relative to its working directory. You can change this behaviour by providing the full path to output directories in `config.yml`
 
 
 * `cluster.yml` contains information relevant to executing this workflow on a cluster (Rackham) such as project accession, number of cores and wall time for each step.
 
-
-* `submit-snakemake.sh` is used to run the pipeline on a cluster, where each step is run as a separate job managed by the cluster's queueing manager `SLURM`.
 
 
 ### Running on Rackham
