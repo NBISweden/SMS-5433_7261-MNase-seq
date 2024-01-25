@@ -2,7 +2,7 @@
 
 # Run snakemake
 snakemake \
-    --snakefile Snakefile_procdata_fastq_PE \
+    --snakefile Snakefile_procdata_PE_v.0.2 \
     --rerun-incomplete \
     --jobs 50 \
     --cluster-config cluster.yml \

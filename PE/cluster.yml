@@ -13,12 +13,12 @@ bowtie_idx:
 
 map_bowtie_unique_bestmap:
   partition: "shared"
-  N: 4
+  N: 8
   time: "03:00:00"
-  jobname: "map_PE"
+  jobname: "map_PE_u"
 
 map_bowtie_multi_randompos:
   partition: "shared"
-  N: 4
+  N: 8
   time: "03:00:00"
-  jobname: "map_PE"
+  jobname: "map_PE_m"
