@@ -7,9 +7,13 @@ logdir: "logdir/"
 # Snakefile location
 snkpth: "Snakefile_procdata_fastq_PE_v.0.1"
 
-#W303 reference from geneBank
+#adapter sequences (standard Illumina)
+adapterFWD: "AGATCGGAAGAGCACACGTCTGAACTCCAGTCA"
+adapterREV: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
+
 
 # Reference files
+#W303 reference from geneBank
 GENOME_FA: "/cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/reference/w303_ncbi/ncbi_dataset/data/GCA_002163515.1/GCA_002163515.1_ASM216351v1_genomic.fna"
 
 # Parameters for calculation of normalised coverage tracks
