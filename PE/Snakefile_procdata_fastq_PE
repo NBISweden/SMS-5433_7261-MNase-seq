@@ -105,9 +105,9 @@ rule cutadapt:
         r1=datadir + "{id}_R1.fastq.gz",
         r2=datadir + "{id}_R2.fastq.gz"
     output:
-        fastq1=trimmeddir + "{id}.trimmed_R1.fastq",
+        fastq1=trimmeddir + "{id}.trimmed_R1.fastq.gz",
         log= logdir + "{id}.cutadapt.log",
-        fastq2=trimmeddir + "{id}.trimmed_R2.fastq",
+        fastq2=trimmeddir + "{id}.trimmed_R2.fastq.gz",
     shell:
         """
         cutadapt -a {config[adapterFWD]} -A {config[adapterREV]} -m 30 -j 0 -q 20 -o {output.fastq1} -p {output.fastq2} {input.r1} {input.r2} &> {output.log}
