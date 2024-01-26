@@ -50,7 +50,8 @@ samples_base = list(set(fastq_base))
 #####################
 ## TMPDIR
 
-# $TMPDIR is used in the shell code chunks
+# $TMPDIR is NOT ANYMORE used in the shell code chunks
+# $SNIC_TMP is used in the shell code chunks
 #####################
 
 
@@ -145,7 +146,7 @@ rule map_bowtie_unique_bestmap:
         """
         pth="{input.idx}"
         foo="{input.idxrev}"
-        TMPDIR="${{TMPDIR:-/tmp}}"
+        #TMPDIR="${{TMPDIR:-/tmp}}"
        
         bowtie -n 3 -m 1 --best --strata \
         -a -q -S -p 4 --fr -t -X 400 --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.id}.sam 2> {output.log} 
@@ -170,7 +171,7 @@ rule map_bowtie_multi_randompos:
         pth="{input.idx}"
         foo="{input.idxrev}"
         #TMPDIR="${{TMPDIR:-/tmp}}" # workd on Rackham
-        TMPDIR="/tmp"
+        #TMPDIR="/tmp"
         
         bowtie -n 3 -M 1 --best --strata \
         -a -q -S -p 4 --fr -t -X 400 --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.id}.sam 2> {output.log} 
