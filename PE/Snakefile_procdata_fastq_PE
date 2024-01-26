@@ -169,8 +169,9 @@ rule map_bowtie_multi_randompos:
         """
         pth="{input.idx}"
         foo="{input.idxrev}"
-        TMPDIR="${{TMPDIR:-/tmp}}"
-       
+        #TMPDIR="${{TMPDIR:-/tmp}}" # workd on Rackham
+        TMPDIR="/tmp"
+        
         bowtie -n 3 -M 1 --best --strata \
         -a -q -S -p 4 --fr -t -X 400 --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.id}.sam 2> {output.log} 
 
