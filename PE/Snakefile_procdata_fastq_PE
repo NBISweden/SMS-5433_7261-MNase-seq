@@ -64,8 +64,8 @@ rule all:
         expand(fastqcdir2+ "{id}.trimmed_R1_fastqc.html",id=samples_base),
         expand(fastqcdir2+ "{id}.trimmed_R2_fastqc.html",id=samples_base),
         expand(bw_uniq + "{id}.bwt.unique_bestmap.cov1x.bw",id=samples_base),
-        expand(bw_multi + "{id}.bwt.multi_randompos.cov1x.bw",id=samples_base),
-        multiqcdir + "multiqc_report.html"
+        expand(bw_multi + "{id}.bwt.multi_randompos.cov1x.bw",id=samples_base)#,
+        #multiqcdir + "multiqc_report.html"
 
 
 rule bowtie_idx:
