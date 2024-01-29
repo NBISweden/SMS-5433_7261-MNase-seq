@@ -192,8 +192,11 @@ rule map_bowtie_multi_randompos:
         mkdir -p $TMPDIR/mr
         fq1="{input.fq1}"
         fq2="{input.fq2}"
-        echo "$TMPDIR/ur/${{fq1%%.gz}}"
-        gzip -c {input.fq1} >$TMPDIR/mr/${{fq1%%.gz}}
+        fnq1=${fq1##/*}
+        echo "${fq1%%.gz}"
+        echo "$TMPDIR/ur/${fnq1}"
+
+        gzip -c {input.fq1} >${{fnq1}}
         gzip -c {input.fq2} >$TMPDIR/mr/${{fq2%%.gz}}
         bowtie -n 3 -M 1 --best --strata -a -q -S -p 4 --fr -t -X 400 --chunkmbs 512 ${{pth%.1.ebwt}} -1 $TMPDIR/mr/${{fq1%%.gz}} -2 $TMPDIR/mr/${{fq2%%.gz}} $TMPDIR/{wildcards.id}.mr.sam 2> {output.log} 
 
