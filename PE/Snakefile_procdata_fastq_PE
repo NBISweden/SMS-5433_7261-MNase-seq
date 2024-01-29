@@ -79,7 +79,7 @@ rule bowtie_idx:
     shell:
         """
         pth="{output.idx}"
-        bowtie-build --threads 2 -f {input} ${{pth%.1.ebwt}} &> {log}
+        bowtie-build -f {input} ${{pth%.1.ebwt}} &> {log}
         """
 
 
