@@ -14,8 +14,13 @@ adapterREV: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
 
 # Reference files
 #W303 reference from geneBank
-GENOME_FA: "/cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/reference/w303_ncbi/ncbi_dataset/data/GCA_002163515.1/GCA_002163515.1_ASM216351v1_genomic.fna"
+#GENOME_FA: "/cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/reference/w303_ncbi/ncbi_dataset/data/GCA_002163515.1/GCA_002163515.1_ASM216351v1_genomic.fna"
+#S288C reference from SGD
+GENOME_FA: "/cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/reference/s288c/S288C_reference_genome_R64-4-1_20230830/S288C_R64-4-1_20230830.chr.fa"
 
 # Parameters for calculation of normalised coverage tracks
 efGenomeSize: "12400000"
-normIgnore: "CM007980.1 CM007981.1"
+#W303
+#normIgnore: "CM007980.1 CM007981.1"
+#S288C
+normIgnore: "MT"

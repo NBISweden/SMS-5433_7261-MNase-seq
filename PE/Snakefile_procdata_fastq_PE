@@ -111,7 +111,7 @@ rule cutadapt:
         fastq2=trimmeddir + "{id}.trimmed_R2.fastq.gz",
     shell:
         """
-        cutadapt -a {config[adapterFWD]} -A {config[adapterREV]} -m 30 -j 0 -q 20 -o {output.fastq1} -p {output.fastq2} {input.r1} {input.r2} &> {output.log}
+        cutadapt -a {config[adapterFWD]} -A {config[adapterREV]} -m 30 -j 0 -q 20 --trim-n -o {output.fastq1} -p {output.fastq2} {input.r1} {input.r2} &> {output.log}
         """
 
 rule fastqc_proc:
