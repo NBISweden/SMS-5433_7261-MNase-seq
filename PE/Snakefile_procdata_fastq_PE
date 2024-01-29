@@ -192,7 +192,7 @@ rule map_bowtie_multi_randompos:
         mkdir -p $TMPDIR/mr
         fq1="{input.fq1}"
         fq2="{input.fq2}"
-        fnq1=${fq1##*/}
+        fnq1=${{fq1##*/}}
         echo "${fq1%%.gz}"
         echo "$TMPDIR/ur/${{fnq1}}"
 
