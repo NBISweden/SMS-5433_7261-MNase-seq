@@ -193,7 +193,7 @@ rule map_bowtie_multi_randompos:
         fq1="{input.fq1}"
         fq2="{input.fq2}"
         fnq1=${{fq1##*/}}
-        echo "${fq1%%.gz}"
+        echo "${{fq1%%.gz}}"
         echo "$TMPDIR/ur/${{fnq1}}"
 
         gzip -c {input.fq1} >${{fnq1}}
