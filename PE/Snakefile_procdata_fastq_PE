@@ -50,8 +50,9 @@ samples_base = list(set(fastq_base))
 #####################
 ## TMPDIR
 
-# $TMPDIR is NOT ANYMORE used in the shell code chunks
-# $SNIC_TMP is used in the shell code chunks
+# TMPDIR needs to be exported before running the pipeline or otherwise properly configured
+# $SNIC_JOB_ID may also used in some processes
+
 #####################
 
 
@@ -79,7 +80,11 @@ rule bowtie_idx:
     shell:
         """
         pth="{output.idx}"
+        #bowtie-build --threads 2 -f {input} ${{pth%.1.ebwt}} &> {log}
+        
+        #bowtie 1.2.0
         bowtie-build -f {input} ${{pth%.1.ebwt}} &> {log}
+
         """
 
 
@@ -148,8 +153,14 @@ rule map_bowtie_unique_bestmap:
         foo="{input.idxrev}"
         #TMPDIR="${{TMPDIR:-/tmp}}"
        
-        bowtie -n 3 -m 1 --best --strata \
-        -a -q -S -p 4 --fr -t -X 400 --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.id}.ub.sam 2> {output.log} 
+        #bowtie -n 3 -m 1 --best --strata -a -q -S -p 4 --fr -t -X 400 --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.id}.ub.sam 2> {output.log} 
+    
+        #bowtie 1.2.0
+        mkdir -p $TMPDIR/${SNIC_JOB_ID}
+        gzip -c {input.fq1} >$TMPDIR/${SNIC_JOB_ID}/${{input.fq1%%.gz}}
+        gzip -c {input.fq2} >$TMPDIR/${SNIC_JOB_ID}/${{input.fq2%%.gz}}
+        bowtie -n 3 -m 1 --best --strata -a -q -S -p 4 --fr -t -X 400 --chunkmbs 512 ${{pth%.1.ebwt}} -1 $TMPDIR/${SNIC_JOB_ID}/${{input.fq1%%.gz}} -2 $TMPDIR/${SNIC_JOB_ID}/${{input.fq2%%.gz}} $TMPDIR/{wildcards.id}.ub.sam 2> {output.log} 
+
 
         samtools sort -T $TMPDIR/{wildcards.id}.ub.tmp -o {output.bam} $TMPDIR/{wildcards.id}.ub.sam
         
@@ -173,8 +184,13 @@ rule map_bowtie_multi_randompos:
         #TMPDIR="${{TMPDIR:-/tmp}}" # workd on Rackham
         #TMPDIR="/tmp"
         
-        bowtie -n 3 -M 1 --best --strata \
-        -a -q -S -p 4 --fr -t -X 400 --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.id}.mr.sam 2> {output.log} 
+        #bowtie -n 3 -M 1 --best --strata -a -q -S -p 4 --fr -t -X 400 --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.id}.mr.sam 2> {output.log} 
+
+        #bowtie 1.2.0
+        mkdir -p $TMPDIR/${SNIC_JOB_ID}
+        gzip -c {input.fq1} >$TMPDIR/${SNIC_JOB_ID}/${{input.fq1%%.gz}}
+        gzip -c {input.fq2} >$TMPDIR/${SNIC_JOB_ID}/${{input.fq2%%.gz}}
+        bowtie -n 3 -M 1 --best --strata -a -q -S -p 4 --fr -t -X 400 --chunkmbs 512 ${{pth%.1.ebwt}} -1 $TMPDIR/${SNIC_JOB_ID}/${{input.fq1%%.gz}} -2 $TMPDIR/${SNIC_JOB_ID}/${{input.fq2%%.gz}} $TMPDIR/{wildcards.id}.mr.sam 2> {output.log} 
 
         samtools sort -T $TMPDIR/{wildcards.id}.mr.tmp -o {output.bam} $TMPDIR/{wildcards.id}.mr.sam
         
