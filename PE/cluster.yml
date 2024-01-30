@@ -5,6 +5,12 @@ __default__:
   time: "01:00:00"
   jobname: "readproc_PE"
 
+cutadapt:
+  partition: "shared"
+  N: 4
+  time: "06:00:00"
+  jobname: "cutadapt"
+
 bowtie_idx:
   partition: "shared"
   N: 2
