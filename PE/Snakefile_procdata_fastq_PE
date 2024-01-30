@@ -69,7 +69,7 @@ rule all:
         expand(bw_uniq + "{id}.bwt.unique_bestmap.cov1x.bw",id=samples_base),
         expand(bw_multi + "{id}.bwt.multi_randompos.cov1x.bw",id=samples_base),
         expand(picarddir_multi + "{id}.bwt.multi_randompos.insert_size_histogram.pdf",id=samples_base),        
-        expand(picarddir_uniq + "{id}.bwt.multi_randompos.insert_size_histogram.pdf",id=samples_base),        
+        expand(picarddir_uniq + "{id}.bwt.unique_bestmap.insert_size_histogram.pdf",id=samples_base),        
         multiqcdir + "multiqc_report.html"
 
 
