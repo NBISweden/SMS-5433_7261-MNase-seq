@@ -11,6 +11,9 @@ snkpth: "Snakefile_procdata_fastq_PE"
 adapterFWD: "AGATCGGAAGAGCACACGTCTGAACTCCAGTCA"
 adapterREV: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
 
+#insert size for read mapping
+insertSize: "700"
+
 
 # Reference files
 #W303 reference from geneBank
