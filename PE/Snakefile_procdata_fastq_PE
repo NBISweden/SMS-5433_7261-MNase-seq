@@ -174,7 +174,7 @@ rule map_bowtie_unique_bestmap:
         #gzip -cd {input.fq1} >$FQ1
         #gzip -cd {input.fq2} >$FQ2
 
-        bowtie -n 3 -m 1 --best --strata -a -q -S -p 4 --fr -t -X {config[insertSize]} --chunkmbs 512 ${{pth%.1.ebwt}} -1 ${{FQ1}} -2 ${{FQ2}}  $TMPDIR/{wildcards.id}.ub.sam 2> {output.log} 
+        #bowtie -n 3 -m 1 --best --strata -a -q -S -p 4 --fr -t -X {config[insertSize]} --chunkmbs 512 ${{pth%.1.ebwt}} -1 ${{FQ1}} -2 ${{FQ2}}  $TMPDIR/{wildcards.id}.ub.sam 2> {output.log} 
 
 
         samtools sort -T $TMPDIR/{wildcards.id}.ub.tmp -o {output.bam} $TMPDIR/{wildcards.id}.ub.sam
