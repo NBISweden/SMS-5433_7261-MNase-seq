@@ -19,7 +19,9 @@ insertSize: "700"
 #W303 reference from geneBank
 #GENOME_FA: "/cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/reference/w303_ncbi/ncbi_dataset/data/GCA_002163515.1/GCA_002163515.1_ASM216351v1_genomic.fna"
 #S288C reference from SGD
-GENOME_FA: "/cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/reference/s288c/S288C_reference_genome_R64-4-1_20230830/S288C_R64-4-1_20230830.chr.fa"
+#GENOME_FA: "/cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/reference/s288c/S288C_reference_genome_R64-4-1_20230830/S288C_R64-4-1_20230830.chr.fa"
+#S288C reference from GeneBank / NCBI
+GENOME_FA: "/cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/reference/s288c_ncbi/fa/ncbi_dataset/data/GCA_002057635.1/GCA_002057635.1_ASM205763v1_genomic.chr.fna"
 
 # Parameters for calculation of normalised coverage tracks
 efGenomeSize: "12400000"
