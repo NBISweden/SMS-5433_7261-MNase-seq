@@ -7,7 +7,7 @@ import itertools
 
 
 ## version 2.0
-## 30 Jan 2024
+## 30 Jan 2024 - 1 Feb 2024
 
 
 # Config file
@@ -77,8 +77,8 @@ rule bowtie_idx:
     input:
         config["GENOME_FA"]
     output:
-        idx= bwt_idx_dir + "Sce_w303.1.ebwt",
-        idxrev= bwt_idx_dir + "Sce_w303.rev.1.ebwt"
+        idx= bwt_idx_dir + "Sce_s288c.1.ebwt",
+        idxrev= bwt_idx_dir + "Sce_s288c.rev.1.ebwt"
     log:
         logdir + "bwt_idx.log"
     shell:
@@ -146,8 +146,8 @@ rule map_bowtie_unique_bestmap:
     input:
         fq1=trimmeddir + "{id}.trimmed_R1.fastq.gz",
         fq2=trimmeddir + "{id}.trimmed_R2.fastq.gz",
-        idx= bwt_idx_dir + "Sce_w303.1.ebwt",
-        idxrev= bwt_idx_dir + "Sce_w303.rev.1.ebwt"
+        idx= bwt_idx_dir + "Sce_s288c.1.ebwt",
+        idxrev= bwt_idx_dir + "Sce_s288c.rev.1.ebwt"
     output:
         log= logdir + "{id}.bowtie.unique_bestmap.log",
         bam= bwt_uniq + "{id}.bwt.unique_bestmap.sorted.bam"
@@ -157,7 +157,7 @@ rule map_bowtie_unique_bestmap:
         foo="{input.idxrev}"
         #TMPDIR="${{TMPDIR:-/tmp}}"
        
-        bowtie -n 3 -m 1 --best --strata -a -q -S -p 6 -y 1000 --fr -t -X {config[insertSize]} --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.id}.ub.sam 2> {output.log} 
+        bowtie -n 3 -m 1 --best --strata -a -q -S -p 8 -y 1000 --fr -t -X {config[insertSize]} --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.id}.ub.sam 2> {output.log} 
     
         #bowtie 1.2.0
         #mkdir -p $TMPDIR/ur
@@ -187,8 +187,8 @@ rule map_bowtie_multi_randompos:
     input:
         fq1=trimmeddir + "{id}.trimmed_R1.fastq.gz",
         fq2=trimmeddir + "{id}.trimmed_R2.fastq.gz",
-        idx= bwt_idx_dir + "Sce_w303.1.ebwt",
-        idxrev= bwt_idx_dir + "Sce_w303.rev.1.ebwt"
+        idx= bwt_idx_dir + "Sce_s288c.1.ebwt",
+        idxrev= bwt_idx_dir + "Sce_s288c.rev.1.ebwt"
     output:
         log= logdir + "{id}.bowtie.multi_randompos.log",
         bam= bwt_multi + "{id}.bwt.multi_randompos.sorted.bam"
@@ -196,10 +196,9 @@ rule map_bowtie_multi_randompos:
         """
         pth="{input.idx}"
         foo="{input.idxrev}"
-        #TMPDIR="${{TMPDIR:-/tmp}}" # workd on Rackham
-        #TMPDIR="/tmp"
+        #TMPDIR="${{TMPDIR:-/tmp}}" # worked on Rackham
         
-        bowtie -n 3 -M 1 --best --strata -a -q -S -p 6 -y 1000 --fr -t -X {config[insertSize]} --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.id}.mr.sam 2> {output.log} 
+        bowtie -n 3 -M 1 --best --strata -a -q -S -p 8 -y 1000 --fr -t -X {config[insertSize]} --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.id}.mr.sam 2> {output.log} 
 
         #bowtie 1.2.0
         #mkdir -p $TMPDIR/mr
