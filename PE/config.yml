@@ -21,11 +21,15 @@ insertSize: "700"
 #S288C reference from SGD
 #GENOME_FA: "/cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/reference/s288c/S288C_reference_genome_R64-4-1_20230830/S288C_R64-4-1_20230830.chr.fa"
 #S288C reference from GeneBank / NCBI
-GENOME_FA: "/cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/reference/s288c_ncbi/fa/ncbi_dataset/data/GCA_002057635.1/GCA_002057635.1_ASM205763v1_genomic.chr.fna"
+#GENOME_FA: "/cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/reference/s288c_ncbi/fa/ncbi_dataset/data/GCA_002057635.1/GCA_002057635.1_ASM205763v1_genomic.chr.fna"
+#from ensembl release 101 - used before
+GENOME_FA: "/cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/reference/s288c_r64-1-1/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.chr.fa"
 
 # Parameters for calculation of normalised coverage tracks
 efGenomeSize: "12400000"
 #W303
 #normIgnore: "CM007980.1 CM007981.1"
 #S288C
-normIgnore: "MT"
+#normIgnore: "MT"
+#R64-1-1
+normIgnore: "Mito"
