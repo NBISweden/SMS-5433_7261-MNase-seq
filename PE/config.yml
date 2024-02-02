@@ -31,5 +31,5 @@ efGenomeSize: "12400000"
 #normIgnore: "CM007980.1 CM007981.1"
 #S288C
 #normIgnore: "MT"
-#R64-1-1
+#R64-1-1 as used before
 normIgnore: "Mito"
