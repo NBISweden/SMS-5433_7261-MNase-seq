@@ -157,7 +157,7 @@ rule map_bowtie_unique_bestmap:
         foo="{input.idxrev}"
         #TMPDIR="${{TMPDIR:-/tmp}}"
        
-        bowtie -n 3 -m 1 --best --strata -a -q -S -p 8 -y 1000 --fr -t -X {config[insertSize]} --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.id}.ub.sam 2> {output.log} 
+        bowtie -n 3 -m 1 --best --strata -a -q -S -p 16 -y 1000 --fr -t -X {config[insertSize]} --chunkmbs 512 -x ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.id}.ub.sam 2> {output.log} 
     
         #bowtie 1.2.0
         #mkdir -p $TMPDIR/ur
@@ -195,7 +195,7 @@ rule map_bowtie_multi_randompos:
         foo="{input.idxrev}"
         #TMPDIR="${{TMPDIR:-/tmp}}" # worked on Rackham
 
-        bowtie -n 3 -M 1 --best --strata -a -q -S -p 8 -y 1000 --fr -t -X {config[insertSize]} --chunkmbs 512 ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.id}.mr.sam 2> {output.log} 
+        bowtie -n 3 -M 1 --best --strata -a -q -S -p 16 -y 1000 --fr -t -X {config[insertSize]} --chunkmbs 512 -x ${{pth%.1.ebwt}} -1 {input.fq1} -2 {input.fq2} $TMPDIR/{wildcards.id}.mr.sam 2> {output.log} 
 
         #bowtie 1.2.0
         #mkdir -p $TMPDIR/mr
