@@ -194,7 +194,7 @@ rule picard_multi:
         hist= picarddir_multi + "{id}.bwt.multi_randompos.insert_size_histogram.pdf"
     shell:
         """
-        java -jar picard.jar CollectInsertSizeMetrics -I {input.bam} -O {output.metrics} -H {output.hist} -M 0.5
+        picard CollectInsertSizeMetrics -I {input.bam} -O {output.metrics} -H {output.hist} -M 0.5
         """
 
 
@@ -206,7 +206,7 @@ rule picard_uniq:
         hist= picarddir_uniq + "{id}.bwt.unique_bestmap.insert_size_histogram.pdf"
     shell:
         """
-        java -jar picard.jar CollectInsertSizeMetrics -I {input.bam} -O {output.metrics} -H {output.hist} -M 0.5
+        picard CollectInsertSizeMetrics -I {input.bam} -O {output.metrics} -H {output.hist} -M 0.5
         """
 
 
