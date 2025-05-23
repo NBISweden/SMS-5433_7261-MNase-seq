@@ -15,8 +15,84 @@ mamba create --no-default-packages -p /cfs/klemming/projects/snic/naiss2023-22-1
 
 Installed samtools version was 1.7.
 
+### Running the pipeline
+
+```
+		module load PDC/22.06 screen/4.8.0
+
+		conda activate  /cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/software/conda/DataProcCurrent
+
+		export TMPDIR="${SNIC_TMP}/18iii2024"
+		mkdir -p $TMPDIR #required by the pipeline; variable not specified on Dardel
+
+		#updated running settings
+		pipeline="/cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/software/5433_read_processing_pipelines"
+		cp ${pipeline}/PE/Snakefile_procdata_fastq_PE .
+
+		bash submit-snakemake.sh
+```
 
 
+
+### Running DANPOS2
+
+DANPOS2 environment:
+
+```
+conda env create --file environment2.yml
+```
+
+environment2.yml:
+
+```
+	name: danpos2.2.2
+
+	channels:
+	 - conda-forge
+	 - bioconda
+	 - defaults
+	dependencies:
+	 ## conda-forge packages
+	 - conda-forge::python>2.7.9
+	 - conda-forge::r-base=3.5.1
+	 - conda-forge::numpy==1.7.2
+	 - conda-forge::rpy2==2.8.6
+
+	 ## bioconda packages
+	 - bioconda::samtools=1.7
+	 - bioconda::danpos=2.2.2
+	 - bioconda::pysam=0.15.4
+	 - bioconda::bedtools=2.29.2
+	 - bioconda::ucsc-bedgraphtobigwig=377
+	 - bioconda::ucsc-wigtobigwig=377
+```
+
+
+key dependencies:
+
+```
+	python --version
+	Python 2.7.15
+
+	conda list -n danpos2.2
+
+	python                    2.7.15          h5a48372_1011_cpython    conda-forge
+	pysam                     0.15.4           py27hbcae180_0    bioconda
+	rpy2                      2.8.6           py27r35hd767a1f_2    conda-forge
+	numpy                     1.7.2           py27_blas_openblas_202    conda-forge
+```
+
+run:
+
+```
+export DANPOS_HOME="/cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/software/conda_danpos/danpos2.2.2/bin/"
+
+conda activate danpos2.2.2
+
+bamToBed -i ${infile} > ${file_bed}
+
+python $DANPOS_HOME/danpos.py dpos $infile_bed_1:$infile_bed_2 -o $dir_out -jw 10 -a 1 -z 0 --paired 1
+```
 
 ## Workflow description
 
