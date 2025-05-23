@@ -1,4 +1,4 @@
-# 5433_read_processing_pipelines
+# 5433 and 7261 read processing pipelines
 
 Pipelines for processing reads from ChIP-seq or MNase-seq experiments with focus on subtelomeric and other repetitive regions.
 
