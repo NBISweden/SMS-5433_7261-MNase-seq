@@ -3,6 +3,19 @@
 Pipelines for processing reads from ChIP-seq or MNase-seq experiments with focus on subtelomeric and other repetitive regions.
 
 
+## Update for proj 7261
+
+The data in this project consisted of reads longer than in previous projects - due to technology change. A significant proportion of the reads were longer than the library fragments - something bowtie 1 is not design to deal with, and reports alignments derived from these reads as invalid ("failed to align" in mapping stats reported to STDOUT). To circumvent this, the read processing step was optimised (trimming reads to the length giving optimal alignment rates).
+
+Data processing step was performed using the environment constructed by:
+
+```
+mamba create --no-default-packages -p /cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/software/conda/DataProcCurrent -c bioconda -c conda-forge snakemake>7 bowtie=1.3.1 cutadapt=4.2 deeptools=3.5.0 picard=3.1.1 fastqc samtools multiqc graphviz 
+```
+
+Installed samtools version was 1.7.
+
+
 
 
 ## Workflow description
