@@ -18,18 +18,18 @@ Installed samtools version was 1.7.
 ### Running the pipeline
 
 ```
-		module load PDC/22.06 screen/4.8.0
+module load PDC/22.06 screen/4.8.0
 
-		conda activate  /cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/software/conda/DataProcCurrent
+conda activate  /cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/software/conda/DataProcCurrent
 
-		export TMPDIR="${SNIC_TMP}/18iii2024"
-		mkdir -p $TMPDIR #required by the pipeline; variable not specified on Dardel
+export TMPDIR="${SNIC_TMP}/18iii2024"
+mkdir -p $TMPDIR #required by the pipeline; variable not specified on Dardel
 
-		#updated running settings
-		pipeline="/cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/software/5433_read_processing_pipelines"
-		cp ${pipeline}/PE/Snakefile_procdata_fastq_PE .
+#updated running settings
+pipeline="/cfs/klemming/projects/snic/naiss2023-22-1143/nbis_7261/software/5433_read_processing_pipelines"
+cp ${pipeline}/PE/Snakefile_procdata_fastq_PE .
 
-		bash submit-snakemake.sh
+bash submit-snakemake.sh
 ```
 
 
@@ -45,13 +45,13 @@ conda env create --file environment2.yml
 environment2.yml:
 
 ```
-	name: danpos2.2.2
+name: danpos2.2.2
 
-	channels:
+channels:
 	 - conda-forge
 	 - bioconda
 	 - defaults
-	dependencies:
+dependencies:
 	 ## conda-forge packages
 	 - conda-forge::python>2.7.9
 	 - conda-forge::r-base=3.5.1
